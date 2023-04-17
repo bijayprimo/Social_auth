@@ -37,7 +37,8 @@ class AppleLoginService {
       final nonce = sha256ofString(rawNonce);
       print("0");
       // Request credential for the currently signed in Apple account.
-      final appleCredential = await SignInWithApple.getAppleIDCredential(
+      var appleCredential;
+      await SignInWithApple.getAppleIDCredential(
         webAuthenticationOptions: WebAuthenticationOptions(
           clientId: "com.dogexp.dogNews",
           //'de.lunaone.flutter.signinwithappleexample.service',
@@ -56,7 +57,9 @@ class AppleLoginService {
           AppleIDAuthorizationScopes.fullName,
         ],
         nonce: nonce,
-      );
+      ).then((value) {
+        print("AuthCredb $value");
+      return appleCredential = value;});
       print("1");
       // Create an `OAuthCredential` from the credential returned by Apple.
       final oauthCredential = OAuthProvider("apple.com").credential(
