@@ -27,6 +27,7 @@ class AppleLoginService {
   final _firebaseAuth = FirebaseAuth.instance;
 
   Future<User?> signInWithApple() async {
+    User? user;
     try {
       // To prevent replay attacks with the credential returned from Apple, we
       // include a nonce in the credential request. When signing in with
@@ -68,11 +69,11 @@ class AppleLoginService {
       UserCredential userCredential =
           await FirebaseAuth.instance.signInWithCredential(oauthCredential);
       print("3");
-      User? user = userCredential.user;
+      user = userCredential.user;
       return user;
     } catch (e, st) {
       debugPrint("Apple Login exception  $st ");
-
+return user;
     }
   }
 }
