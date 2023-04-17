@@ -12,19 +12,19 @@ class LoginManager {
     try {
       if (Platform.isAndroid) {
         googleUser = await GoogleSignIn(
-                clientId:
-                    androidClientId)
+            clientId:
+            androidClientId)
             .signIn();
       } else if (Platform.isIOS) {
         googleUser = await GoogleSignIn(
-                clientId: iosClientId)
+            clientId: iosClientId)
             .signIn();
       }
 
-
+if(googleUser!= null){
       // Obtain the auth details from the request
       final GoogleSignInAuthentication? googleAuth =
-          await googleUser?.authentication;
+      await googleUser?.authentication;
 
       // Create a new credential
       final credential = GoogleAuthProvider.credential(
@@ -33,11 +33,12 @@ class LoginManager {
       );
 
       UserCredential userCredential =
-          await FirebaseAuth.instance.signInWithCredential(credential);
+      await FirebaseAuth.instance.signInWithCredential(credential);
       user = userCredential.user;
 
       debugPrint("User Email --- ${user!.email}");
       return user;
+    }
     } catch (e) {
       debugPrint("$e");
     }
