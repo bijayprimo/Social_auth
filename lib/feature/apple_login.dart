@@ -5,7 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
-
 class AppleLoginService {
   /// Generates a cryptographically secure random nonce, to be included in a
   /// credential request.
@@ -35,22 +34,20 @@ class AppleLoginService {
       // match the sha256 hash of `rawNonce`.
       final rawNonce = generateNonce();
       final nonce = sha256ofString(rawNonce);
-      print("0");
+      print("2");
       // Request credential for the currently signed in Apple account.
-      var appleCredential;
+      AuthorizationCredentialAppleID? appleCredential;
       await SignInWithApple.getAppleIDCredential(
         webAuthenticationOptions: WebAuthenticationOptions(
           clientId: "com.dogexp.dogNews",
           //'de.lunaone.flutter.signinwithappleexample.service',
 
-          redirectUri:
-
-              kIsWeb
-                  ? Uri.parse(
-                      'https://flutter-sign-in-with-apple-example.glitch.me/callbacks/sign_in_with_apple')
-                  : Uri.parse(
-                      'https://dogexpress-30ff0.firebaseapp.com/__/auth/handler',
-                    ),
+          redirectUri: kIsWeb
+              ? Uri.parse(
+                  'https://flutter-sign-in-with-apple-example.glitch.me/callbacks/sign_in_with_apple')
+              : Uri.parse(
+                  'https://dogexpress-30ff0.firebaseapp.com/__/auth/handler',
+                ),
         ),
         scopes: [
           AppleIDAuthorizationScopes.email,
@@ -59,24 +56,30 @@ class AppleLoginService {
         nonce: nonce,
       ).then((value) {
         print("AuthCredb $value");
-      return appleCredential = value;});
+         appleCredential = value;
+      }).onError((error, stackTrace) {
+        print(stackTrace);
+         appleCredential = null;
+      }).whenComplete(() => print("done"));
       print("1");
-      // Create an `OAuthCredential` from the credential returned by Apple.
-      final oauthCredential = OAuthProvider("apple.com").credential(
-        idToken: appleCredential.identityToken,
-        rawNonce: rawNonce,
-      );
-      print("2");
-      // Sign in the user with Firebase. If the nonce we generated earlier does
-      // not match the nonce in `appleCredential.identityToken`, sign in will fail.
-      UserCredential userCredential =
-          await FirebaseAuth.instance.signInWithCredential(oauthCredential);
-      print("3");
-      user = userCredential.user;
-      return user;
+   if(appleCredential!=null){
+     // Create an `OAuthCredential` from the credential returned by Apple.
+     final oauthCredential = OAuthProvider("apple.com").credential(
+       idToken: appleCredential!.identityToken,
+       rawNonce: rawNonce,
+     );
+     print("2");
+     // Sign in the user with Firebase. If the nonce we generated earlier does
+     // not match the nonce in `appleCredential.identityToken`, sign in will fail.
+     UserCredential userCredential =
+     await FirebaseAuth.instance.signInWithCredential(oauthCredential);
+     print("3");
+     user = userCredential.user;
+     return user;
+   }
     } catch (e, st) {
       debugPrint("Apple Login exception  $st ");
-return user;
+      return user;
     }
   }
 }
