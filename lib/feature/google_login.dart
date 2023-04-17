@@ -40,7 +40,7 @@ if(googleUser!= null){
       return user;
     }
     } catch (e) {
-      debugPrint("$e");
+      debugPrint("Error $e");
     }
     return user;
   }
