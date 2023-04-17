@@ -34,7 +34,7 @@ class AppleLoginService {
       // match the sha256 hash of `rawNonce`.
       final rawNonce = generateNonce();
       final nonce = sha256ofString(rawNonce);
-
+      print("0");
       // Request credential for the currently signed in Apple account.
       final appleCredential = await SignInWithApple.getAppleIDCredential(
         webAuthenticationOptions: WebAuthenticationOptions(
@@ -56,19 +56,22 @@ class AppleLoginService {
         ],
         nonce: nonce,
       );
+      print("1");
       // Create an `OAuthCredential` from the credential returned by Apple.
       final oauthCredential = OAuthProvider("apple.com").credential(
         idToken: appleCredential.identityToken,
         rawNonce: rawNonce,
       );
+      print("2");
       // Sign in the user with Firebase. If the nonce we generated earlier does
       // not match the nonce in `appleCredential.identityToken`, sign in will fail.
       UserCredential userCredential =
           await FirebaseAuth.instance.signInWithCredential(oauthCredential);
+      print("3");
       User? user = userCredential.user;
       return user;
-    } catch (e) {
-      debugPrint("Apple Login exception  $e ");
+    } catch (e, st) {
+      debugPrint("Apple Login exception  $st ");
 
     }
   }
