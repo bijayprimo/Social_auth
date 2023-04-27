@@ -58,7 +58,7 @@ class AppleLoginService {
          appleCredential = value;
       }).onError((error, stackTrace) {
          appleCredential = null;
-      }).whenComplete(() => print("done"));
+      }).whenComplete(() => Navigator.of(context).pop());
       // Manually close the enter password dialog
       if (appleCredential?.state != null) {
        Navigator.of(context).pop();
@@ -77,7 +77,11 @@ class AppleLoginService {
 
      user = userCredential.user;
      return user;
-   }
+   }else{
+        ScaffoldMessenger.of(context).showSnackBar( SnackBar(
+          content:  Text("Sending Message"),
+        ));
+      }
     } catch (e, st) {
       debugPrint("Apple Login exception  ${st.toString()} ");
       debugPrint("Apple Login error  $e ");
