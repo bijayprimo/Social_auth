@@ -74,6 +74,7 @@ class AppleLoginService {
    }
     } catch (e, st) {
       debugPrint("Apple Login exception  $st ");
+      debugPrint("Apple Login error  $e ");
       return user;
     }
   }
