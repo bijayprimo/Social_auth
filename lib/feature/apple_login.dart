@@ -73,7 +73,7 @@ class AppleLoginService {
      return user;
    }
     } catch (e, st) {
-      debugPrint("Apple Login exception  $st ");
+      debugPrint("Apple Login exception  ${st.toString()} ");
       debugPrint("Apple Login error  $e ");
       return user;
     }
