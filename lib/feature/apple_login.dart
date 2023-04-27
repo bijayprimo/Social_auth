@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class AppleLoginService {
@@ -26,7 +25,7 @@ class AppleLoginService {
 
   final _firebaseAuth = FirebaseAuth.instance;
 
-  Future<User?> signInWithApple(BuildContext context) async {
+  Future<User?> signInWithApple() async {
     User? user;
     try {
       // To prevent replay attacks with the credential returned from Apple, we
@@ -58,13 +57,8 @@ class AppleLoginService {
          appleCredential = value;
       }).onError((error, stackTrace) {
          appleCredential = null;
-      }).whenComplete(() => Navigator.of(context).pop());
-      // Manually close the enter password dialog
-      if (appleCredential?.state != null) {
-       Navigator.of(context).pop();
-      }
-
-      if(appleCredential!=null){
+      }).whenComplete(() => print("done"));
+   if(appleCredential!=null){
      // Create an `OAuthCredential` from the credential returned by Apple.
      final oauthCredential = OAuthProvider("apple.com").credential(
        idToken: appleCredential!.identityToken,
@@ -77,11 +71,7 @@ class AppleLoginService {
 
      user = userCredential.user;
      return user;
-   }else{
-        ScaffoldMessenger.of(context).showSnackBar( SnackBar(
-          content:  Text("Sending Message"),
-        ));
-      }
+   }
     } catch (e, st) {
       debugPrint("Apple Login exception  ${st.toString()} ");
       debugPrint("Apple Login error  $e ");
