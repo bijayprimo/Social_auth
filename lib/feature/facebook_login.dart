@@ -8,7 +8,7 @@ class FacebookManager {
   Future<User?> signInWithFacebook() async {
     try {
       // Trigger the sign-in flow
-      final LoginResult loginResult = await FacebookAuth.instance.login(permissions: ["public_profile", "email"]);
+      final LoginResult loginResult = await FacebookAuth.instance.login();
 
       print("login result ----- ${loginResult.message}");
 
