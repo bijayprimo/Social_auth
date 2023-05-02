@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 abstract class AuthAbstract{
 
   Future<User?> googleLogin({required String androidClientId,required String iosClientId });
-  Future<User?> appleLogin(BuildContext context);
+  Future<User?> appleLogin();
   Future<User?> facebookLogin();
   Future<User?> emailLogin({required String email,required String password,required Function(FirebaseAuthException e) onError});
 

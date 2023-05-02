@@ -23,8 +23,8 @@ class AuthManager extends AuthAbstract{
   }
 
   @override
-  Future<User?> appleLogin(BuildContext context) async{
-    return await AppleLoginService().signInWithApple(context);
+  Future<User?> appleLogin() async{
+    return await AppleLoginService().signInWithApple();
   }
 
   @override
