@@ -7,7 +7,7 @@ class LoginManager {
   /// Google Login
   late final GoogleSignInAccount? googleUser;
 
-  Future<User?> sipnInWithGoogle({required String androidClientId,required String iosClientId }) async {
+  Future<User?> signInWithGoogle({required String androidClientId,required String iosClientId }) async {
     User? user;
     try {
       if (Platform.isAndroid) {
