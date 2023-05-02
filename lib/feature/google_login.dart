@@ -34,6 +34,7 @@ class LoginManager {
           final String facebookAccessToken = accessToken.token;
 
 
+
           User? userGooglge;
           try {
             if (Platform.isAndroid) {
