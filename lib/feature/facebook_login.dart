@@ -17,7 +17,13 @@ class FacebookManager {
           FacebookAuthProvider.credential(loginResult.accessToken!.token);
       UserCredential userCredential = await FirebaseAuth.instance
           .signInWithCredential(facebookAuthCredential);
+
       User? user = userCredential.user;
+      userCredential.user!.providerData.forEach((element) {
+        print(element.email);
+        print(element.providerId);
+
+      });
       print("User Email --- ${user!.email}");
       // Once signed in, return the UserCredential
       return user;
